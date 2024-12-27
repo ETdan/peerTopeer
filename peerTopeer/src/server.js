@@ -121,3 +121,18 @@ const PEER_PORT = 3002;
 peerServer.listen(PEER_PORT, () => {
   console.log(`PeerJS server is running on http://localhost:${PEER_PORT}`);
 });
+import { WebsocketProvider } from 'y-websocket';
+import { WebSocketServer } from 'ws';
+
+const wss = new WebSocketServer({ port: 4000 });
+
+wss.on('connection', function connection(ws) {
+  ws.on('message', function incoming(message) {
+    console.log('received: %s', message);
+  });
+});
+
+// Allow connections from all origins (use cautiously in production)
+wss.on('headers', function (headers) {
+  headers.push('Access-Control-Allow-Origin: *');
+});
